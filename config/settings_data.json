@@ -1,3 +1,21 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "current": {}
+  "current": {
+    "content_for_index": [],
+    "blocks": {
+      "16015553545834452532": {
+        "type": "shopify://apps/bird-pickup-delivery/blocks/app-embed/6e8f5020-fc3a-4acd-a31a-fb627c0270cf",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  }
 }
