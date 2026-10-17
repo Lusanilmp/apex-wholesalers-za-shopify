@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -30,7 +39,14 @@
         "t2",
         "t3"
       ],
-      "settings": {}
+      "settings": {
+        "eyebrow": "SOUTH AFRICA, MEET YOUR NEXT",
+        "heading": "FAVOURITE\nFIND.",
+        "text": "Everyday finds. Smarter shopping.",
+        "button_label": "Shop Now",
+        "button_link": "",
+        "image": "shopify://shop_images/avv-tech-accessories.jpg"
+      }
     },
     "categories": {
       "type": "category-cards",
@@ -38,32 +54,40 @@
         "c1": {
           "type": "category",
           "settings": {
+            "collection": "",
             "title": "Tech Accessories",
             "description": "Phones, audio, chargers & more",
+            "button_label": "Shop Now",
             "art": "tech"
           }
         },
         "c2": {
           "type": "category",
           "settings": {
+            "collection": "",
             "title": "Home Essentials",
             "description": "Everyday home must-haves",
+            "button_label": "Shop Now",
             "art": "home"
           }
         },
         "c3": {
           "type": "category",
           "settings": {
+            "collection": "",
             "title": "Everyday Finds",
             "description": "Practical products for daily life",
+            "button_label": "Shop Now",
             "art": "everyday"
           }
         },
         "c4": {
           "type": "category",
           "settings": {
+            "collection": "",
             "title": "New Arrivals",
             "description": "Fresh products, great value",
+            "button_label": "Shop Now",
             "art": "new"
           }
         }
@@ -74,20 +98,29 @@
         "c3",
         "c4"
       ],
-      "settings": {}
+      "settings": {
+        "aria": "Shop by category"
+      }
     },
     "trending": {
       "type": "featured-products",
       "settings": {
         "heading": "Trending Products",
         "subheading": "Popular finds people love right now.",
+        "collection": "",
         "sort": "default",
         "limit": 8
       }
     },
     "promo": {
       "type": "promo-banner",
-      "settings": {}
+      "settings": {
+        "heading": "UPGRADE\nYOUR EVERYDAY.",
+        "text": "Quality tech, home essentials and more, all in one place.",
+        "button_label": "Shop All Products",
+        "button_link": "",
+        "image": "shopify://shop_images/avv-shopping-lifestyle.jpg"
+      }
     },
     "trust": {
       "type": "trust-features",
@@ -138,6 +171,7 @@
       "settings": {
         "heading": "New Arrivals",
         "subheading": "Be the first to shop the latest products.",
+        "collection": "",
         "sort": "newest",
         "limit": 8
       }
@@ -148,29 +182,33 @@
         "p1": {
           "type": "photo",
           "settings": {
-            "art": "1",
-            "alt": "Over-ear headphones placeholder"
+            "alt": "Over-ear headphones placeholder",
+            "link": "",
+            "art": "1"
           }
         },
         "p2": {
           "type": "photo",
           "settings": {
-            "art": "2",
-            "alt": "Table lamp placeholder"
+            "alt": "Table lamp placeholder",
+            "link": "",
+            "art": "2"
           }
         },
         "p3": {
           "type": "photo",
           "settings": {
-            "art": "3",
-            "alt": "Houseplant placeholder"
+            "alt": "Houseplant placeholder",
+            "link": "",
+            "art": "3"
           }
         },
         "p4": {
           "type": "photo",
           "settings": {
-            "art": "4",
-            "alt": "Smartphone placeholder"
+            "alt": "Smartphone placeholder",
+            "link": "",
+            "art": "4"
           }
         }
       },
@@ -180,11 +218,20 @@
         "p3",
         "p4"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "FOLLOW OUR\nJOURNEY",
+        "text": "New products. Special deals. Real customer moments."
+      }
     },
     "newsletter": {
       "type": "newsletter",
-      "settings": {}
+      "settings": {
+        "heading": "GET EXCLUSIVE\nUPDATES",
+        "text": "Be the first to know about new arrivals, special deals and more.",
+        "button_label": "Subscribe",
+        "consent": "I agree to receive marketing emails from Apex Wholesalers ZA and understand I can unsubscribe at any time.",
+        "success": "Thanks for subscribing!"
+      }
     }
   },
   "order": [
