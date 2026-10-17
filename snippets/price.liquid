@@ -1,0 +1,12 @@
+{%- comment -%} Usage: render 'price', product: product {%- endcomment -%}
+{%- liquid
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+-%}
+<p class="price">
+  {%- if product.price_varies and on_sale == false %}<span class="from">From </span>{% endif -%}
+  {{ product.price | money }}
+  {%- if on_sale %}<s aria-label="Original price">{{ product.compare_at_price | money }}</s>{% endif -%}
+</p>

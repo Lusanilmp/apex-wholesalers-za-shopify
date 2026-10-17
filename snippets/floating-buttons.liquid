@@ -1,0 +1,5 @@
+{%- assign wa = settings.support_whatsapp | replace: '+', '' | replace: ' ', '' -%}
+{%- if wa != blank -%}
+  <a class="fab-wa" href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+{%- endif -%}
+<button class="to-top" id="toTop" type="button" aria-label="{{ 'general.back_to_top' | t }}"><svg class="icon" aria-hidden="true"><use href="#i-up"/></svg></button>

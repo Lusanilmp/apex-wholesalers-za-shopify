@@ -1,0 +1,9 @@
+<div class="container notice-404">
+  <h1>Page not found</h1>
+  <p style="margin:12px 0 22px">The page you were looking for doesn't exist or has moved.</p>
+  <a class="btn btn-primary" href="{{ routes.all_products_collection_url }}">{{ 'general.shop_now' | t }}</a>
+  <a class="btn btn-outline" href="{{ routes.root_url }}">Home</a>
+</div>
+{% schema %}
+{ "name": "404 page" }
+{% endschema %}

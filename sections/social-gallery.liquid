@@ -1,0 +1,56 @@
+<section class="section" aria-labelledby="soc-{{ section.id }}">
+  <div class="container">
+    <div class="social-wrap">
+      <div>
+        <h2 id="soc-{{ section.id }}">{{ section.settings.heading | escape | newline_to_br }}</h2>
+        <p>{{ section.settings.text }}</p>
+        {% render 'social-links' %}
+      </div>
+      <div class="social-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.image -%}
+            {%- capture inner -%}{{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 900px) 18vw, 45vw', alt: block.settings.image.alt }}{%- endcapture -%}
+          {%- else -%}
+            {%- capture inner -%}<img src="{{ 'social-' | append: block.settings.art | append: '.svg' | asset_url }}" width="600" height="600" loading="lazy" alt="{{ block.settings.alt | escape }}">{%- endcapture -%}
+          {%- endif -%}
+          <div {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" target="_blank" rel="noopener">{{ inner }}</a>{%- else -%}{{ inner }}{%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Social gallery",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "FOLLOW OUR\nJOURNEY" },
+    { "type": "text", "id": "text", "label": "Text", "default": "New products. Special deals. Real customer moments." },
+    { "type": "paragraph", "content": "Social links are set in Theme settings → Social media. Add only photos you own or have permission to use." }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "alt", "label": "Alt text (when no photo)", "default": "Product photo placeholder" },
+        { "type": "url", "id": "link", "label": "Link (e.g. the original post)" },
+        { "type": "select", "id": "art", "label": "Fallback illustration", "default": "1", "options": [
+          { "value": "1", "label": "Headphones" }, { "value": "2", "label": "Lamp" }, { "value": "3", "label": "Plant" }, { "value": "4", "label": "Phone" }
+        ] }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Social gallery", "blocks": [
+      { "type": "photo", "settings": { "art": "1", "alt": "Over-ear headphones placeholder" } },
+      { "type": "photo", "settings": { "art": "2", "alt": "Table lamp placeholder" } },
+      { "type": "photo", "settings": { "art": "3", "alt": "Houseplant placeholder" } },
+      { "type": "photo", "settings": { "art": "4", "alt": "Smartphone placeholder" } }
+    ] }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,61 @@
+{%- assign track_url = settings.tracking_url | default: routes.account_url -%}
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">{% render 'logo' %}</a>
+
+    <nav class="main-nav" aria-label="Main">
+      <ul>
+        {%- for link in linklists[section.settings.menu].links -%}
+          <li {% if link.links.size > 0 %}class="has-children"{% endif %}>
+            <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title }}</a>
+            {%- if link.links.size > 0 -%}
+              <ul class="sub">
+                {%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+        {%- if section.settings.show_track -%}<li><a href="{{ track_url }}">Track Order</a></li>{%- endif -%}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" type="button" id="searchOpen" aria-label="{{ 'general.search' | t }}"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></button>
+      <a class="icon-btn" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></a>
+      <a class="icon-btn" href="{{ routes.cart_url }}" id="cartOpen" aria-label="{{ 'general.cart' | t }}" aria-controls="cartDrawer"><svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg><span class="cart-count" id="cartCount" data-empty="{% if cart.item_count == 0 %}true{% else %}false{% endif %}">{{ cart.item_count }}</span></a>
+      <button class="icon-btn menu-toggle" type="button" id="menuOpen" aria-label="{{ 'general.menu' | t }}" aria-controls="mobileMenu" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="scrim" id="scrim"></div>
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+  <div class="menu-head"><strong>{{ 'general.menu' | t }}</strong><button class="icon-btn" type="button" id="menuClose" aria-label="{{ 'general.close' | t }}"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+  {%- for link in linklists[section.settings.menu].links -%}
+    <a href="{{ link.url }}">{{ link.title }}</a>
+    {%- for child in link.links -%}<a class="sub-m" href="{{ child.url }}">{{ child.title }}</a>{%- endfor -%}
+  {%- endfor -%}
+  {%- if section.settings.show_track -%}<a href="{{ track_url }}">Track Order</a>{%- endif -%}
+</nav>
+
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="{{ 'general.search' | t }}">
+  <div class="search-box">
+    <form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
+      <label class="sr-only" for="searchInput">{{ 'general.search' | t }}</label>
+      <input id="searchInput" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search_placeholder' | t }}" autocomplete="off">
+      <input type="hidden" name="type" value="product">
+      <button class="btn btn-primary" type="submit">{{ 'general.search' | t }}</button>
+      <button class="icon-btn" type="button" id="searchClose" aria-label="{{ 'general.close' | t }}"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+    </form>
+    <div class="search-results" id="searchResults" aria-live="polite"></div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Main menu", "default": "main-menu", "info": "Add Home, Shop, Tech Accessories, Home Essentials and Everyday Finds here (Online Store → Navigation)." },
+    { "type": "checkbox", "id": "show_track", "label": "Add a Track Order link after the menu", "default": true }
+  ]
+}
+{% endschema %}

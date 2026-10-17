@@ -1,0 +1,59 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Apex Wholesalers ZA",
+    "theme_version": "1.0.0",
+    "theme_author": "Apex Technical Solutions",
+    "theme_documentation_url": "https://apextechnicalsolutionssa.co.za",
+    "theme_support_url": "https://apextechnicalsolutionssa.co.za"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo (Apex Wholesalers ZA)", "info": "Leave empty to use the bundled AW logo." },
+      { "type": "range", "id": "logo_height", "min": 36, "max": 90, "step": 2, "unit": "px", "label": "Logo height", "default": 56 },
+      { "type": "image_picker", "id": "social_image", "label": "Social sharing image (1200 × 630)", "info": "Used when links are shared. Leave empty to use the bundled branded image." }
+    ]
+  },
+  {
+    "name": "SEO",
+    "settings": [
+      { "type": "text", "id": "home_seo_title", "label": "Homepage SEO title", "default": "Apex Wholesalers ZA | Tech Accessories, Home Essentials & Everyday Finds" },
+      { "type": "textarea", "id": "home_seo_description", "label": "Homepage meta description", "default": "Shop tech accessories, home essentials and everyday finds at Apex Wholesalers ZA. Discover practical products and convenient online shopping in South Africa." },
+      { "type": "number", "id": "return_days", "label": "Return window (days) for structured data", "info": "Only fill this in if it matches your published Returns policy. Leave empty to omit return-policy data." }
+    ]
+  },
+  {
+    "name": "Store contact",
+    "settings": [
+      { "type": "header", "content": "Customer-service details (shown to shoppers)" },
+      { "type": "text", "id": "support_whatsapp", "label": "Store support WhatsApp number", "info": "International format, digits only, e.g. 27XXXXXXXXX. Leave empty to hide the floating WhatsApp button." },
+      { "type": "text", "id": "support_phone", "label": "Store phone" },
+      { "type": "text", "id": "support_email", "label": "Store support email" },
+      { "type": "url", "id": "tracking_url", "label": "Order tracking page URL", "info": "Your courier / tracking service or a Shopify page. If empty, Track Order opens the customer's account orders." }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "url", "id": "social_facebook", "label": "Facebook" },
+      { "type": "url", "id": "social_instagram", "label": "Instagram" },
+      { "type": "url", "id": "social_tiktok", "label": "TikTok" },
+      { "type": "url", "id": "social_whatsapp", "label": "WhatsApp link", "info": "e.g. https://wa.me/27XXXXXXXXX" }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      { "type": "checkbox", "id": "wishlist_enabled", "label": "Enable wishlist hearts (saved in the shopper's browser only)", "default": true },
+      { "type": "text", "id": "cart_note", "label": "Cart note", "default": "Shipping and taxes calculated at checkout." }
+    ]
+  },
+  {
+    "name": "Developer credit",
+    "settings": [
+      { "type": "checkbox", "id": "show_developer", "label": "Show developer credit in footer", "default": true },
+      { "type": "paragraph", "content": "Developer: Apex Technical Solutions. These details are the website developer's contacts, not the store's customer service." }
+    ]
+  }
+]

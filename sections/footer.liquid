@@ -1,0 +1,87 @@
+{%- assign track_url = settings.tracking_url | default: routes.account_url -%}
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      {% render 'logo' %}
+      {%- if section.settings.description != blank -%}<p>{{ section.settings.description }}</p>{%- endif -%}
+      {% render 'social-links' %}
+    </div>
+
+    <nav aria-label="{{ section.settings.quick_heading | escape }}">
+      <h3>{{ section.settings.quick_heading }}</h3>
+      <ul>
+        {%- for link in linklists[section.settings.quick_menu].links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+        {%- if section.settings.show_track -%}<li><a href="{{ track_url }}">Track Order</a></li>{%- endif -%}
+      </ul>
+    </nav>
+
+    <nav aria-label="{{ section.settings.care_heading | escape }}">
+      <h3>{{ section.settings.care_heading }}</h3>
+      <ul>
+        {%- if section.settings.care_menu != blank and linklists[section.settings.care_menu].links.size > 0 -%}
+          {%- for link in linklists[section.settings.care_menu].links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+        {%- else -%}
+          {%- for policy in shop.policies -%}<li><a href="{{ policy.url }}">{{ policy.title }}</a></li>{%- endfor -%}
+        {%- endif -%}
+      </ul>
+    </nav>
+
+    <div>
+      <h3>{{ section.settings.connect_heading }}</h3>
+      {%- if settings.support_phone != blank or settings.support_email != blank -%}
+        <ul>
+          {%- if settings.support_phone != blank -%}<li><a href="tel:{{ settings.support_phone | replace: ' ', '' }}">{{ settings.support_phone }}</a></li>{%- endif -%}
+          {%- if settings.support_email != blank -%}<li><a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a></li>{%- endif -%}
+        </ul>
+      {%- endif -%}
+      {%- form 'customer', class: 'footer-form', id: 'footerForm', novalidate: 'novalidate' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <p class="form-msg ok" role="status">Thanks for subscribing!</p>
+        {%- else -%}
+          <label class="sr-only" for="ftEmail">Email address</label>
+          <input id="ftEmail" type="email" name="contact[email]" placeholder="Enter your email" autocomplete="email" required>
+          <button type="submit" aria-label="Subscribe"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        {%- endif -%}
+      {%- endform -%}
+      <p class="art-note" style="margin-top:6px">By subscribing you agree to receive marketing emails. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <div>
+        <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+        {%- if settings.show_developer -%}
+          <p class="dev-credit">Designed &amp; Developed by <a href="https://apextechnicalsolutionssa.co.za" target="_blank" rel="noopener">Apex Technical Solutions</a></p>
+        {%- endif -%}
+      </div>
+      {%- if settings.show_developer -%}
+      <div class="dev-card">
+        <img src="{{ 'logo-apex-technical.png' | asset_url }}" width="40" height="54" loading="lazy" alt="Apex Technical Solutions logo">
+        <div>
+          <strong>Website developer contact</strong>
+          <a href="https://apextechnicalsolutionssa.co.za" target="_blank" rel="noopener">apextechnicalsolutionssa.co.za</a><br>
+          <a href="tel:+27681954265">+27 68 195 4265</a> &middot; <a href="https://wa.me/27681954265" target="_blank" rel="noopener">WhatsApp</a><br>
+          <a href="mailto:apextechnicalsolutions0@gmail.com">apextechnicalsolutions0@gmail.com</a><br>
+          <small>For website enquiries only &mdash; not store customer service.</small>
+        </div>
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "description", "label": "Company description", "default": "A growing online store for practical products you use every day." },
+    { "type": "text", "id": "quick_heading", "label": "Column 2 heading", "default": "Quick Links" },
+    { "type": "link_list", "id": "quick_menu", "label": "Column 2 menu", "default": "footer", "info": "Home, Shop, Contact Us, FAQs" },
+    { "type": "checkbox", "id": "show_track", "label": "Add Track Order link", "default": true },
+    { "type": "text", "id": "care_heading", "label": "Column 3 heading", "default": "Customer Care" },
+    { "type": "link_list", "id": "care_menu", "label": "Column 3 menu", "info": "Empty = your Shopify store policies (Shipping, Refund, Privacy, Terms)." },
+    { "type": "text", "id": "connect_heading", "label": "Column 4 heading", "default": "Stay Connected" }
+  ]
+}
+{% endschema %}

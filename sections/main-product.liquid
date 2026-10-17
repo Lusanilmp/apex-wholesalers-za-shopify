@@ -1,0 +1,80 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+-%}
+{% render 'breadcrumbs' %}
+<section class="container pdp" data-product data-product-handle="{{ product.handle }}">
+  <div class="pdp-gallery">
+    <div id="pdpMain">
+      {%- if product.featured_media -%}
+        {{ product.featured_media.preview_image | image_url: width: 900 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '450, 700, 900', sizes: '(min-width: 900px) 50vw, 100vw', alt: product.featured_media.alt | default: product.title, id: 'pdpMainImg' }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+    {%- if product.images.size > 1 -%}
+    <div class="pdp-thumbs" role="list">
+      {%- for image in product.images -%}
+        <button type="button" role="listitem" data-thumb="{{ image | image_url: width: 900 }}" data-alt="{{ image.alt | default: product.title | escape }}" aria-label="Show image {{ forloop.index }}" {% if forloop.first %}aria-current="true"{% endif %}>
+          {{ image | image_url: width: 140 | image_tag: loading: 'lazy', width: 70, height: 70, alt: '' }}
+        </button>
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
+  </div>
+
+  <div class="pdp-info">
+    {%- if product.vendor != blank -%}<p class="eyebrow" style="margin-bottom:6px">{{ product.vendor }}</p>{%- endif -%}
+    <h1>{{ product.title }}</h1>
+    <div id="pdpPrice">{% render 'price', product: product %}</div>
+    <p class="stock {% unless current.available %}out{% endunless %}" id="pdpStock" aria-live="polite">
+      {%- if current.available -%}{{ 'general.in_stock' | t }}{%- if current.inventory_management == 'shopify' and current.inventory_quantity > 0 and current.inventory_quantity <= 5 %} &ndash; only {{ current.inventory_quantity }} left{%- endif -%}{%- else -%}{{ 'general.sold_out' | t }}{%- endif -%}
+    </p>
+
+    {%- form 'product', product, id: 'productForm' -%}
+      <input type="hidden" name="id" id="variantId" value="{{ current.id }}">
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          <fieldset class="option-group">
+            <legend>{{ option.name }}</legend>
+            <div class="pill-row">
+              {%- for value in option.values -%}
+                <label>
+                  <input type="radio" name="option-{{ option.position }}" value="{{ value | escape }}" data-option-index="{{ forloop.parentloop.index0 }}" {% if option.selected_value == value %}checked{% endif %}>
+                  <span>{{ value }}</span>
+                </label>
+              {%- endfor -%}
+            </div>
+          </fieldset>
+        {%- endfor -%}
+      {%- endunless -%}
+      <div class="pdp-buy">
+        <div class="qty" aria-label="Quantity">
+          <button type="button" data-qty="-1" aria-label="Decrease quantity">&minus;</button>
+          <input type="number" name="quantity" id="pdpQty" value="1" min="1" inputmode="numeric" style="width:48px;border:0;text-align:center;font:inherit" aria-label="Quantity">
+          <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
+        </div>
+        <button class="btn btn-primary" type="submit" id="pdpAdd" style="flex:1;min-width:180px" {% unless current.available %}disabled{% endunless %}>{% if current.available %}{{ 'general.add_to_cart' | t }}{% else %}{{ 'general.sold_out' | t }}{% endif %}</button>
+        {%- if settings.wishlist_enabled -%}
+          <button class="wish-text" type="button" data-wish="{{ product.handle }}" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg><span>Wishlist</span></button>
+        {%- endif -%}
+      </div>
+      <p class="form-msg err" id="pdpError" role="alert"></p>
+    {%- endform -%}
+
+    <div class="rte">{{ product.description }}</div>
+    <div class="pdp-meta">
+      {%- if current.sku != blank -%}<span>SKU: <span id="pdpSku">{{ current.sku }}</span></span>{%- endif -%}
+      {%- if shop.shipping_policy.body != blank or shop.refund_policy.body != blank -%}
+        <span>Shipping and returns follow the store's published policies:
+          {%- if shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">Shipping</a>{% endif -%}
+          {%- if shop.refund_policy.body != blank %} <a href="{{ shop.refund_policy.url }}" style="text-decoration:underline">Returns &amp; Refunds</a>{% endif -%}
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script type="application/json" id="productJson">{{ product.variants | json }}</script>
+</section>
+{% schema %}
+{ "name": "Product page" }
+{% endschema %}

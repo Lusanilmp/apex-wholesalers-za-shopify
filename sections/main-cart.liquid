@@ -1,0 +1,38 @@
+{% render 'breadcrumbs' %}
+<section class="container cart-page section" style="padding-top:0">
+  <h1 style="margin-bottom:16px">{{ 'cart.title' | t }}</h1>
+  {%- if cart.item_count == 0 -%}
+    <p>{{ 'cart.empty' | t }}</p>
+    <p style="margin-top:14px"><a class="btn btn-primary" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue' | t }}</a></p>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      <table>
+        <thead><tr><th scope="col" colspan="2">Product</th><th scope="col">Quantity</th><th scope="col">Total</th></tr></thead>
+        <tbody>
+          {%- for item in cart.items -%}
+            <tr>
+              <td style="width:90px">{%- if item.image -%}<a href="{{ item.url }}">{{ item.image | image_url: width: 160 | image_tag: class: 'cart-img', loading: 'lazy', alt: item.image.alt }}</a>{%- endif -%}</td>
+              <td><a href="{{ item.url }}"><strong>{{ item.product.title }}</strong></a>
+                {%- unless item.product.has_only_default_variant %}<br><small>{{ item.variant.title }}</small>{% endunless -%}
+                <br><small>{{ item.final_price | money }}</small>
+                <br><a href="{{ item.url_to_remove }}" style="text-decoration:underline;font-size:.8rem">{{ 'cart.remove' | t }}</a></td>
+              <td><label class="sr-only" for="q-{{ item.index }}">Quantity for {{ item.product.title | escape }}</label><input id="q-{{ item.index }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:70px;min-height:42px;border:1px solid var(--grey);border-radius:8px;padding:0 8px"></td>
+              <td>{{ item.final_line_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+      <div class="cart-summary">
+        <p class="subtotal" style="gap:24px"><span>{{ 'cart.subtotal' | t }}</span> <span>{{ cart.total_price | money }}</span></p>
+        <small>{{ settings.cart_note }}</small>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-outline" type="submit" name="update">Update cart</button>
+          <button class="btn btn-primary" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+        </div>
+      </div>
+    </form>
+  {%- endif -%}
+</section>
+{% schema %}
+{ "name": "Cart page" }
+{% endschema %}

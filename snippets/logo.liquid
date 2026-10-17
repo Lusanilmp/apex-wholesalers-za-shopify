@@ -1,0 +1,6 @@
+{%- assign logo_h = settings.logo_height | default: 56 -%}
+{%- if settings.logo -%}
+  {{ settings.logo | image_url: width: 400 | image_tag: loading: 'eager', class: 'logo-img', alt: shop.name, style: 'height:auto;width:auto;max-height:56px' }}
+{%- else -%}
+  <img src="{{ 'logo-aw.png' | asset_url }}" width="{{ logo_h | times: 1.61 | round }}" height="{{ logo_h }}" alt="{{ shop.name | escape }}" style="height:{{ logo_h }}px;width:auto">
+{%- endif -%}

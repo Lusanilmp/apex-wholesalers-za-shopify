@@ -1,0 +1,54 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#073D43">
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  {% render 'meta-tags' %}
+
+  {%- if settings.logo -%}
+    <link rel="icon" type="image/png" href="{{ settings.logo | image_url: width: 64 }}">
+  {%- else -%}
+    <link rel="icon" type="image/png" href="{{ 'logo-aw.png' | asset_url }}">
+  {%- endif -%}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  {{ content_for_header }}
+  {% render 'structured-data' %}
+  <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+</head>
+<body class="template-{{ request.page_type | handleize }}">
+  <a class="skip-link" href="#main">{{ 'general.skip' | t }}</a>
+  {% render 'icons' %}
+
+  {% section 'announcement-bar' %}
+  {% section 'header' %}
+
+  <main id="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+  {% section 'cart-drawer' %}
+
+  {% render 'floating-buttons' %}
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    window.AW = {
+      routes: { cart: {{ routes.cart_url | json }}, cartAdd: {{ routes.cart_add_url | json }}, cartChange: {{ routes.cart_change_url | json }}, cartJson: {{ routes.cart_url | append: '.js' | json }}, search: {{ routes.search_url | json }}, suggest: {{ routes.predictive_search_url | json }}, checkout: "/checkout" },
+      currency: {{ cart.currency.iso_code | json }},
+      locale: {{ request.locale.iso_code | json }},
+      strings: { addToCart: {{ 'general.add_to_cart' | t | json }}, soldOut: {{ 'general.sold_out' | t | json }}, empty: {{ 'cart.empty' | t | json }}, remove: {{ 'cart.remove' | t | json }}, noResults: {{ 'general.no_results' | t | json }} },
+      wishlist: {{ settings.wishlist_enabled | json }}
+    };
+  </script>
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+</body>
+</html>

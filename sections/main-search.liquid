@@ -1,0 +1,41 @@
+{% render 'breadcrumbs' %}
+{%- paginate search.results by 16 -%}
+<section class="container section" style="padding-top:0">
+  <h1 style="margin-bottom:12px">{{ 'general.search' | t }}</h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-form" style="max-width:560px;margin-bottom:20px">
+    <label class="sr-only" for="pageSearch">{{ 'general.search' | t }}</label>
+    <input id="pageSearch" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search_placeholder' | t }}">
+    <button class="btn btn-primary" type="submit">{{ 'general.search' | t }}</button>
+  </form>
+  {%- if search.performed -%}
+    <p style="margin-bottom:16px">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for &ldquo;{{ search.terms | escape }}&rdquo;</p>
+    {%- if search.results.size > 0 -%}
+      <div class="grid">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {% render 'product-card', product: item %}
+          {%- else -%}
+            <article class="product-card"><h3><a href="{{ item.url }}">{{ item.title }}</a></h3><p style="font-size:.85rem;color:var(--muted)">{{ item.content | strip_html | truncate: 120 }}</p></article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination" aria-label="Pagination">
+          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" aria-label="Previous page">&laquo;</a>{%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>
+            {%- elsif part.title == paginate.current_page -%}<span class="current" aria-current="page">{{ part.title }}</span>
+            {%- else -%}<span>{{ part.title }}</span>{%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}<a href="{{ paginate.next.url }}" aria-label="Next page">&raquo;</a>{%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- else -%}
+      <p>{{ 'general.no_results' | t }}</p>
+    {%- endif -%}
+  {%- endif -%}
+</section>
+{%- endpaginate -%}
+{% schema %}
+{ "name": "Search results" }
+{% endschema %}

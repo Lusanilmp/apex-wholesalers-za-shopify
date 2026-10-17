@@ -1,0 +1,61 @@
+<section class="section" aria-label="{{ section.settings.aria | default: 'Shop by category' }}">
+  <div class="container">
+    <div class="categories">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign col = block.settings.collection
+          assign title = block.settings.title | default: col.title
+          assign url = col.url | default: routes.all_products_collection_url
+          assign img = block.settings.image | default: col.featured_image
+        -%}
+        <article class="cat-card" {{ block.shopify_attributes }}>
+          <a href="{{ url }}" tabindex="-1" aria-hidden="true">
+            {%- if img -%}
+              {{ img | image_url: width: 640 | image_tag: loading: 'lazy', widths: '320, 480, 640', sizes: '(min-width: 900px) 24vw, (min-width: 600px) 44vw, 74vw', alt: img.alt | default: title }}
+            {%- else -%}
+              <img src="{{ 'cat-' | append: block.settings.art | append: '.svg' | asset_url }}" width="640" height="440" loading="lazy" alt="{{ title | escape }}">
+            {%- endif -%}
+          </a>
+          <div class="cat-body">
+            <h3><a href="{{ url }}">{{ title }}</a></h3>
+            {%- if block.settings.description != blank -%}<p>{{ block.settings.description }}</p>{%- endif -%}
+            <a class="link-arrow" href="{{ url }}">{{ block.settings.button_label | default: 'Shop Now' }} <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Category cards",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "aria", "label": "Accessible label", "default": "Shop by category" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "title", "label": "Title (defaults to collection title)" },
+        { "type": "text", "id": "description", "label": "Short description" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Now" },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Falls back to the collection image, then to a bundled illustration." },
+        { "type": "select", "id": "art", "label": "Fallback illustration", "default": "tech", "options": [
+          { "value": "tech", "label": "Tech" }, { "value": "home", "label": "Home" }, { "value": "everyday", "label": "Everyday" }, { "value": "new", "label": "New" }
+        ] }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Category cards", "blocks": [
+      { "type": "category", "settings": { "title": "Tech Accessories", "description": "Phones, audio, chargers & more", "art": "tech" } },
+      { "type": "category", "settings": { "title": "Home Essentials", "description": "Everyday home must-haves", "art": "home" } },
+      { "type": "category", "settings": { "title": "Everyday Finds", "description": "Practical products for daily life", "art": "everyday" } },
+      { "type": "category", "settings": { "title": "New Arrivals", "description": "Fresh products, great value", "art": "new" } }
+    ] }
+  ]
+}
+{% endschema %}

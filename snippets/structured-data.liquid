@@ -1,0 +1,94 @@
+{%- comment -%}
+  JSON-LD (Schema.org). Built only from real store data. No ratings/reviews are emitted
+  unless a reviews app provides them through Shopify's own product structured data.
+{%- endcomment -%}
+{%- if template.name == 'index' -%}
+{%- liquid
+  assign logo_url = ''
+  if settings.logo
+    assign logo_url = settings.logo | image_url: width: 600
+  else
+    assign logo_url = 'logo-aw.png' | asset_url
+  endif
+  unless logo_url contains 'https:'
+    assign logo_url = 'https:' | append: logo_url
+  endunless
+  assign same_as = ''
+  if settings.social_facebook != blank
+    assign same_as = same_as | append: settings.social_facebook | append: '|'
+  endif
+  if settings.social_instagram != blank
+    assign same_as = same_as | append: settings.social_instagram | append: '|'
+  endif
+  if settings.social_tiktok != blank
+    assign same_as = same_as | append: settings.social_tiktok | append: '|'
+  endif
+  assign same_as_list = same_as | split: '|'
+-%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "OnlineStore",
+      "@id": {{ shop.url | append: '/#organization' | json }},
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }},
+      "logo": {{ logo_url | json }},
+      "areaServed": "ZA",
+      "currenciesAccepted": "ZAR"
+      {%- if settings.support_email != blank %},
+      "email": {{ settings.support_email | json }}
+      {%- endif -%}
+      {%- if settings.support_phone != blank %},
+      "telephone": {{ settings.support_phone | json }}
+      {%- endif -%}
+      {%- if same_as_list.size > 0 %},
+      "sameAs": {{ same_as_list | json }}
+      {%- endif -%}
+      {%- if settings.return_days != blank %},
+      "hasMerchantReturnPolicy": {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": "ZA",
+        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+        "merchantReturnDays": {{ settings.return_days | json }}
+      }
+      {%- endif %}
+    },
+    {
+      "@type": "WebSite",
+      "@id": {{ shop.url | append: '/#website' | json }},
+      "url": {{ shop.url | json }},
+      "name": {{ shop.name | json }},
+      "inLanguage": {{ request.locale.iso_code | json }},
+      "publisher": { "@id": {{ shop.url | append: '/#organization' | json }} },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ shop.url | append: routes.search_url | append: '?q={search_term_string}' | json }},
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
+{%- elsif template.name == 'product' -%}
+<script type="application/ld+json">
+{{ product | structured_data }}
+</script>
+{%- if collection %}
+{%- render 'breadcrumb-schema' -%}
+{%- endif -%}
+{%- elsif template.name == 'collection' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": {{ collection.title | json }},
+  "url": {{ canonical_url | json }}
+  {%- if collection.description != blank %},
+  "description": {{ collection.description | strip_html | strip_newlines | truncate: 300 | json }}
+  {%- endif %}
+}
+</script>
+{%- render 'breadcrumb-schema' -%}
+{%- endif -%}

@@ -1,0 +1,18 @@
+{% render 'breadcrumbs' %}
+<article class="container page-content">
+  <h1>{{ page.title }}</h1>
+  <div class="rte">{{ page.content }}</div>
+  {%- form 'contact', class: 'form-grid', id: 'contactForm' -%}
+    {%- if form.posted_successfully? -%}<p class="alert ok" role="status">Thanks for contacting us. We'll get back to you as soon as we can.</p>{%- endif -%}
+    {%- if form.errors -%}<div class="alert err" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+    <label>Name<input type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}" required></label>
+    <label>Email<input type="email" name="contact[email]" autocomplete="email" value="{{ form.email }}" required></label>
+    <label>Phone (optional)<input type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}"></label>
+    <label>Message<textarea name="contact[body]" rows="6" required>{{ form.body }}</textarea></label>
+    <p class="art-note">We only use your details to reply to your enquiry.</p>
+    <button class="btn btn-primary" type="submit">Send message</button>
+  {%- endform -%}
+</article>
+{% schema %}
+{ "name": "Contact form" }
+{% endschema %}

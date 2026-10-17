@@ -1,0 +1,46 @@
+{%- comment -%}
+  Usage: render 'product-card', product: product, eager: false
+  Real title, price, image, availability and variant data. No fake ratings.
+{%- endcomment -%}
+{%- liquid
+  assign loading = 'lazy'
+  if eager
+    assign loading = 'eager'
+  endif
+  assign single = false
+  if product.variants.size == 1
+    assign single = true
+  endif
+  assign v = product.selected_or_first_available_variant
+  assign on_sale = false
+  if product.compare_at_price > product.price and product.available
+    assign on_sale = true
+  endif
+-%}
+<article class="product-card" data-handle="{{ product.handle }}">
+  {%- if on_sale -%}<span class="badge">Sale</span>{%- endif -%}
+  {%- if settings.wishlist_enabled -%}
+    <button class="wish" type="button" data-wish="{{ product.handle }}" aria-pressed="false" aria-label="Add {{ product.title | escape }} to wishlist"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></button>
+  {%- endif -%}
+  <a class="media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+    {%- if product.featured_image -%}
+      {{ product.featured_image | image_url: width: 600 | image_tag: loading: loading, widths: '240, 360, 480, 600', sizes: '(min-width: 900px) 20vw, (min-width: 600px) 34vw, 62vw', alt: product.featured_image.alt }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </a>
+  <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+  {% render 'price', product: product %}
+  <p class="stock {% unless product.available %}out{% endunless %}">
+    {%- if product.available -%}
+      {%- if v.inventory_management == 'shopify' and v.inventory_quantity > 0 and v.inventory_quantity <= 5 and single -%}Only {{ v.inventory_quantity }} left{%- else -%}{{ 'general.in_stock' | t }}{%- endif -%}
+    {%- else -%}{{ 'general.sold_out' | t }}{%- endif -%}
+  </p>
+  {%- if product.available and single -%}
+    <button class="btn btn-primary btn-block add" type="button" data-add data-variant-id="{{ v.id }}" data-title="{{ product.title | escape }}">{{ 'general.add_to_cart' | t }}</button>
+  {%- elsif product.available -%}
+    <a class="btn btn-primary btn-block" href="{{ product.url }}">{{ 'general.view_options' | t }}</a>
+  {%- else -%}
+    <button class="btn btn-primary btn-block" type="button" disabled>{{ 'general.sold_out' | t }}</button>
+  {%- endif -%}
+</article>

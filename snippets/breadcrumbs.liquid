@@ -1,0 +1,17 @@
+<nav class="breadcrumbs container" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="{{ routes.root_url }}">Home</a></li>
+    {%- if template.name == 'product' -%}
+      {%- if collection -%}<li><a href="{{ collection.url }}">{{ collection.title }}</a></li>{%- endif -%}
+      <li><span aria-current="page">{{ product.title }}</span></li>
+    {%- elsif template.name == 'collection' -%}
+      <li><span aria-current="page">{{ collection.title }}</span></li>
+    {%- elsif template.name == 'page' -%}
+      <li><span aria-current="page">{{ page.title }}</span></li>
+    {%- elsif template.name == 'search' -%}
+      <li><span aria-current="page">{{ 'general.search' | t }}</span></li>
+    {%- elsif template.name == 'cart' -%}
+      <li><span aria-current="page">{{ 'cart.title' | t }}</span></li>
+    {%- endif -%}
+  </ol>
+</nav>

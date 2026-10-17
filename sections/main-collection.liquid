@@ -1,0 +1,77 @@
+{% render 'breadcrumbs' %}
+{%- paginate collection.products by section.settings.per_page -%}
+<section class="container section" style="padding-top:0">
+  <h1 style="font-size:clamp(1.7rem,4vw,2.3rem);margin-bottom:8px">{{ collection.title }}</h1>
+  {%- if collection.description != blank -%}<div class="rte" style="max-width:760px;margin-bottom:18px">{{ collection.description }}</div>{%- endif -%}
+
+  <form class="collection-form" id="collectionForm" method="get" action="{{ collection.url }}">
+    <div class="collection-tools">
+      <p>{{ collection.products_count }} product{% if collection.products_count != 1 %}s{% endif %}</p>
+      <div>
+        <label class="sr-only" for="sortBy">Sort by</label>
+        <select name="sort_by" id="sortBy" data-autosubmit>
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>{{ option.name }}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+
+    {%- if section.settings.enable_filtering and collection.filters.size > 0 -%}
+      <div class="filters">
+        {%- for filter in collection.filters -%}
+          <details {% if filter.active_values.size > 0 or filter.min_value.value or filter.max_value.value %}open{% endif %}>
+            <summary>{{ filter.label }}</summary>
+            {%- case filter.type -%}
+              {%- when 'price_range' -%}
+                <div class="price-range">
+                  <label class="sr-only" for="min-{{ filter.param_name }}">Minimum price</label>
+                  <input type="number" id="min-{{ filter.param_name }}" name="{{ filter.min_value.param_name }}" value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' }}{% endif %}" placeholder="From" min="0" data-autosubmit>
+                  <label class="sr-only" for="max-{{ filter.param_name }}">Maximum price</label>
+                  <input type="number" id="max-{{ filter.param_name }}" name="{{ filter.max_value.param_name }}" value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' }}{% endif %}" placeholder="To" min="0" data-autosubmit>
+                </div>
+              {%- else -%}
+                {%- for value in filter.values -%}
+                  <label>
+                    <input type="{% if filter.type == 'boolean' %}checkbox{% else %}checkbox{% endif %}" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %} data-autosubmit>
+                    {{ value.label }} ({{ value.count }})
+                  </label>
+                {%- endfor -%}
+            {%- endcase -%}
+          </details>
+        {%- endfor -%}
+      </div>
+      <noscript><button class="btn btn-primary" type="submit">Apply</button></noscript>
+    {%- endif -%}
+  </form>
+
+  {%- if collection.products.size > 0 -%}
+    <div class="grid">
+      {%- for product in collection.products -%}{% render 'product-card', product: product, eager: forloop.first %}{%- endfor -%}
+    </div>
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination" aria-label="Pagination">
+        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" aria-label="Previous page">&laquo;</a>{%- endif -%}
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>
+          {%- elsif part.title == paginate.current_page -%}<span class="current" aria-current="page">{{ part.title }}</span>
+          {%- else -%}<span>{{ part.title }}</span>{%- endif -%}
+        {%- endfor -%}
+        {%- if paginate.next -%}<a href="{{ paginate.next.url }}" aria-label="Next page">&raquo;</a>{%- endif -%}
+      </nav>
+    {%- endif -%}
+  {%- else -%}
+    <p>{{ 'general.no_results' | t }}</p>
+  {%- endif -%}
+</section>
+{%- endpaginate -%}
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "label": "Products per page", "default": 16 },
+    { "type": "checkbox", "id": "enable_filtering", "label": "Enable filtering (configure filters in Shopify Search & Discovery app)", "default": true }
+  ]
+}
+{% endschema %}

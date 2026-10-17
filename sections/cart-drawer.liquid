@@ -1,0 +1,12 @@
+<aside class="cart-drawer" id="cartDrawer" aria-label="{{ 'cart.title' | t }}" aria-hidden="true">
+  <div class="drawer-head"><h2>{{ 'cart.title' | t }}</h2><button class="icon-btn" type="button" id="cartClose" aria-label="{{ 'general.close' | t }}"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot">
+    <div class="subtotal"><span>{{ 'cart.subtotal' | t }}</span><span id="cartSubtotal">{{ cart.total_price | money }}</span></div>
+    {%- if settings.cart_note != blank -%}<small>{{ settings.cart_note }}</small>{%- endif -%}
+    <a class="btn btn-primary btn-block" id="checkoutBtn" href="{{ routes.cart_url }}">{{ 'cart.checkout' | t }}</a>
+  </div>
+</aside>
+{% schema %}
+{ "name": "Cart drawer" }
+{% endschema %}

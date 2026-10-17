@@ -1,0 +1,36 @@
+<section class="newsletter" id="newsletter" aria-labelledby="nl-{{ section.id }}">
+  <div class="container newsletter-grid">
+    <div>
+      <h2 id="nl-{{ section.id }}">{{ section.settings.heading | escape | newline_to_br }}</h2>
+      <p class="sub">{{ section.settings.text }}</p>
+    </div>
+    {%- form 'customer', class: 'nl-form', id: 'newsletterForm', novalidate: 'novalidate' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      {%- if form.posted_successfully? -%}
+        <p class="form-msg ok nl-success" role="status">{{ section.settings.success }}</p>
+      {%- else -%}
+        {%- if form.errors -%}<p class="form-msg err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+        <div class="nl-row">
+          <label class="sr-only" for="nlEmail-{{ section.id }}">Email address</label>
+          <input id="nlEmail-{{ section.id }}" type="email" name="contact[email]" placeholder="Enter your email address" autocomplete="email" required>
+          <button class="btn" type="submit">{{ section.settings.button_label }} <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </div>
+        <label class="consent"><input type="checkbox" required data-consent><span>{{ section.settings.consent }}</span></label>
+        <p class="form-msg" id="nlMsg-{{ section.id }}" role="status" aria-live="polite"></p>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "GET EXCLUSIVE\nUPDATES" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Be the first to know about new arrivals, special deals and more." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" },
+    { "type": "textarea", "id": "consent", "label": "Marketing consent text", "default": "I agree to receive marketing emails from Apex Wholesalers ZA and understand I can unsubscribe at any time." },
+    { "type": "text", "id": "success", "label": "Success message", "default": "Thanks for subscribing!" }
+  ],
+  "presets": [ { "name": "Newsletter" } ]
+}
+{% endschema %}

@@ -1,0 +1,200 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "t1": {
+          "type": "trust",
+          "settings": {
+            "icon": "truck",
+            "text": "Nationwide Shipping"
+          }
+        },
+        "t2": {
+          "type": "trust",
+          "settings": {
+            "icon": "shield",
+            "text": "Secure Payments"
+          }
+        },
+        "t3": {
+          "type": "trust",
+          "settings": {
+            "icon": "headset",
+            "text": "Excellent Support"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {}
+    },
+    "categories": {
+      "type": "category-cards",
+      "blocks": {
+        "c1": {
+          "type": "category",
+          "settings": {
+            "title": "Tech Accessories",
+            "description": "Phones, audio, chargers & more",
+            "art": "tech"
+          }
+        },
+        "c2": {
+          "type": "category",
+          "settings": {
+            "title": "Home Essentials",
+            "description": "Everyday home must-haves",
+            "art": "home"
+          }
+        },
+        "c3": {
+          "type": "category",
+          "settings": {
+            "title": "Everyday Finds",
+            "description": "Practical products for daily life",
+            "art": "everyday"
+          }
+        },
+        "c4": {
+          "type": "category",
+          "settings": {
+            "title": "New Arrivals",
+            "description": "Fresh products, great value",
+            "art": "new"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {}
+    },
+    "trending": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Trending Products",
+        "subheading": "Popular finds people love right now.",
+        "sort": "default",
+        "limit": 8
+      }
+    },
+    "promo": {
+      "type": "promo-banner",
+      "settings": {}
+    },
+    "trust": {
+      "type": "trust-features",
+      "blocks": {
+        "f1": {
+          "type": "feature",
+          "settings": {
+            "icon": "diamond",
+            "title": "Quality Products",
+            "text": "Carefully selected products for you."
+          }
+        },
+        "f2": {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast Nationwide Shipping",
+            "text": "Delivery across South Africa, subject to our shipping policy."
+          }
+        },
+        "f3": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "title": "Secure Payments",
+            "text": "Shop with confidence through supported payment methods."
+          }
+        },
+        "f4": {
+          "type": "feature",
+          "settings": {
+            "icon": "headset",
+            "title": "Dedicated Support",
+            "text": "We're here to help."
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "settings": {}
+    },
+    "arrivals": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "New Arrivals",
+        "subheading": "Be the first to shop the latest products.",
+        "sort": "newest",
+        "limit": 8
+      }
+    },
+    "social": {
+      "type": "social-gallery",
+      "blocks": {
+        "p1": {
+          "type": "photo",
+          "settings": {
+            "art": "1",
+            "alt": "Over-ear headphones placeholder"
+          }
+        },
+        "p2": {
+          "type": "photo",
+          "settings": {
+            "art": "2",
+            "alt": "Table lamp placeholder"
+          }
+        },
+        "p3": {
+          "type": "photo",
+          "settings": {
+            "art": "3",
+            "alt": "Houseplant placeholder"
+          }
+        },
+        "p4": {
+          "type": "photo",
+          "settings": {
+            "art": "4",
+            "alt": "Smartphone placeholder"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "categories",
+    "trending",
+    "promo",
+    "trust",
+    "arrivals",
+    "social",
+    "newsletter"
+  ]
+}

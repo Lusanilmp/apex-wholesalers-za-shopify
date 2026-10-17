@@ -1,0 +1,40 @@
+<section class="section" aria-label="Why shop with us">
+  <div class="container">
+    <ul class="why">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <span class="ring"><svg class="icon" aria-hidden="true"><use href="#i-{{ block.settings.icon }}"/></svg></span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Trust features",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "diamond", "options": [
+          { "value": "diamond", "label": "Quality" }, { "value": "truck", "label": "Delivery" }, { "value": "shield", "label": "Shield" }, { "value": "headset", "label": "Support" }, { "value": "lock", "label": "Lock" }, { "value": "return", "label": "Returns" }
+        ] },
+        { "type": "text", "id": "title", "label": "Title", "default": "Quality Products" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Carefully selected products for you." }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Trust features", "blocks": [
+      { "type": "feature", "settings": { "icon": "diamond", "title": "Quality Products", "text": "Carefully selected products for you." } },
+      { "type": "feature", "settings": { "icon": "truck", "title": "Fast Nationwide Shipping", "text": "Delivery across South Africa, subject to our shipping policy." } },
+      { "type": "feature", "settings": { "icon": "shield", "title": "Secure Payments", "text": "Shop with confidence through supported payment methods." } },
+      { "type": "feature", "settings": { "icon": "headset", "title": "Dedicated Support", "text": "We're here to help." } }
+    ] }
+  ]
+}
+{% endschema %}

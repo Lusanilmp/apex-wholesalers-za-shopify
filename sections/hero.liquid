@@ -1,0 +1,60 @@
+<section class="hero" aria-labelledby="hero-{{ section.id }}">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1 id="hero-{{ section.id }}">{{ section.settings.heading | escape | newline_to_br }}</h1>
+      {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+      {%- if section.settings.button_label != blank -%}
+        <a class="btn btn-primary" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }} <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      {%- endif -%}
+      {%- if section.blocks.size > 0 -%}
+      <ul class="hero-trust">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}><svg class="icon" aria-hidden="true"><use href="#i-{{ block.settings.icon }}"/></svg>{{ block.settings.text }}</li>
+        {%- endfor -%}
+      </ul>
+      {%- endif -%}
+    </div>
+    <div class="hero-media">
+      {%- if section.settings.image -%}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '800, 1200, 1600', sizes: '(min-width: 900px) 62vw, 100vw', alt: section.settings.image.alt }}
+      {%- else -%}
+        <img src="{{ 'hero.svg' | asset_url }}" width="1400" height="900" fetchpriority="high" alt="Illustration of the Apex Wholesalers shopping bag with headphones, a smartwatch and a smartphone. Add your own photo in the Theme Editor.">
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "SOUTH AFRICA, MEET YOUR NEXT" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "FAVOURITE\nFIND." },
+    { "type": "text", "id": "text", "label": "Supporting text", "default": "Everyday finds. Smarter shopping." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "image_picker", "id": "image", "label": "Hero image", "info": "Recommended 1600 × 1030. Empty = bundled illustration placeholder." }
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust item",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": [
+          { "value": "truck", "label": "Delivery" }, { "value": "shield", "label": "Shield" }, { "value": "headset", "label": "Support" }, { "value": "lock", "label": "Lock" }, { "value": "diamond", "label": "Quality" }
+        ] },
+        { "type": "text", "id": "text", "label": "Text", "default": "Nationwide Shipping" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    { "name": "Hero", "blocks": [
+      { "type": "trust", "settings": { "icon": "truck", "text": "Nationwide Shipping" } },
+      { "type": "trust", "settings": { "icon": "shield", "text": "Secure Payments" } },
+      { "type": "trust", "settings": { "icon": "headset", "text": "Excellent Support" } }
+    ] }
+  ]
+}
+{% endschema %}
