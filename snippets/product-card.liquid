@@ -37,7 +37,11 @@
     {%- else -%}{{ 'general.sold_out' | t }}{%- endif -%}
   </p>
   {%- if product.available and single -%}
-    <button class="btn btn-primary btn-block add" type="button" data-add data-variant-id="{{ v.id }}" data-title="{{ product.title | escape }}">{{ 'general.add_to_cart' | t }}</button>
+    <form method="post" action="{{ routes.cart_add_url }}">
+      <input type="hidden" name="id" value="{{ v.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button class="btn btn-primary btn-block add" type="submit" data-add data-variant-id="{{ v.id }}" data-title="{{ product.title | escape }}">{{ 'general.add_to_cart' | t }}</button>
+    </form>
   {%- elsif product.available -%}
     <a class="btn btn-primary btn-block" href="{{ product.url }}">{{ 'general.view_options' | t }}</a>
   {%- else -%}

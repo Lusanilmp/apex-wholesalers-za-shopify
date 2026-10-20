@@ -42,7 +42,7 @@
 
   <script>
     window.AW = {
-      routes: { cart: {{ routes.cart_url | json }}, cartAdd: {{ routes.cart_add_url | json }}, cartChange: {{ routes.cart_change_url | json }}, cartJson: {{ routes.cart_url | append: '.js' | json }}, search: {{ routes.search_url | json }}, suggest: {{ routes.predictive_search_url | json }}, checkout: "/checkout" },
+      routes: { cart: {{ routes.cart_url | json }}, cartAdd: {{ routes.cart_add_url | append: '.js' | json }}, cartChange: {{ routes.cart_change_url | append: '.js' | json }}, cartJson: {{ routes.cart_url | append: '.js' | json }}, search: {{ routes.search_url | json }}, suggest: {{ routes.predictive_search_url | json }}, checkout: "/checkout" },
       currency: {{ cart.currency.iso_code | json }},
       locale: {{ request.locale.iso_code | json }},
       strings: { addToCart: {{ 'general.add_to_cart' | t | json }}, soldOut: {{ 'general.sold_out' | t | json }}, empty: {{ 'cart.empty' | t | json }}, remove: {{ 'cart.remove' | t | json }}, noResults: {{ 'general.no_results' | t | json }} },

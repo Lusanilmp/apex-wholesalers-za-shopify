@@ -26,10 +26,7 @@
   function openSearch() { lastFocus = document.activeElement; overlay.classList.add('is-open'); lock(true); $('#searchInput').focus(); }
   function closeSearch() { overlay.classList.remove('is-open'); after(); }
   function on(sel, ev, fn) { var el = $(sel); if (el) { el.addEventListener(ev, fn); } }
-  on('#cartOpen', 'click', function (e) {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || document.body.classList.contains('template-cart')) { return; }
-    e.preventDefault(); refreshCart().then(openDrawer);
-  });
+  /* Cart icon follows Shopify native /cart. */
   on('#cartClose', 'click', closeDrawer);
   on('#menuOpen', 'click', openMenu);
   on('#menuClose', 'click', closeMenu);
@@ -95,11 +92,7 @@
   }
   document.addEventListener('click', function (e) {
     var add = e.target.closest('[data-add]');
-    if (add && !add.disabled) {
-      e.preventDefault(); add.disabled = true;
-      addToCart([{ id: Number(add.getAttribute('data-variant-id')), quantity: 1 }]).catch(function (err) { toast(err.message); }).then(function () { add.disabled = false; });
-      return;
-    }
+    // Product cards use native add-to-cart forms.
     var line = e.target.closest('.cart-line');
     if (line && cartCache) {
       var key = line.getAttribute('data-key'), item = cartCache.items.filter(function (i) { return i.key === key; })[0];
@@ -166,12 +159,7 @@
         $$('[data-thumb]', pdp).forEach(function (x) { x.removeAttribute('aria-current'); }); t.setAttribute('aria-current', 'true');
       });
     });
-    form.addEventListener('submit', function (e) {
-      e.preventDefault(); err.textContent = ''; addBtn.disabled = true;
-      addToCart([{ id: Number(idInput.value), quantity: Math.max(1, parseInt(qty.value, 10) || 1) }])
-        .catch(function (x) { err.textContent = x.message; })
-        .then(function () { var v = findVariant(); addBtn.disabled = !(v && v.available); });
-    });
+    // Product page submits natively to Shopify.
   }
 
   /* ---------- Related products (Shopify recommendations API) ---------- */

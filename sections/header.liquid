@@ -22,7 +22,7 @@
     <div class="header-actions">
       <button class="icon-btn" type="button" id="searchOpen" aria-label="{{ 'general.search' | t }}"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></button>
       <a class="icon-btn" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></a>
-      <a class="icon-btn" href="{{ routes.cart_url }}" id="cartOpen" aria-label="{{ 'general.cart' | t }}" aria-controls="cartDrawer"><svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg><span class="cart-count" id="cartCount" data-empty="{% if cart.item_count == 0 %}true{% else %}false{% endif %}">{{ cart.item_count }}</span></a>
+      <a class="icon-btn" href="{{ routes.cart_url }}" id="cartOpen" aria-label="{{ 'general.cart' | t }}"><svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg><span class="cart-count" id="cartCount" data-empty="{% if cart.item_count == 0 %}true{% else %}false{% endif %}">{{ cart.item_count }}</span></a>
       <button class="icon-btn menu-toggle" type="button" id="menuOpen" aria-label="{{ 'general.menu' | t }}" aria-controls="mobileMenu" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
     </div>
   </div>
